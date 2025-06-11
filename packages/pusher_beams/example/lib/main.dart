@@ -5,8 +5,8 @@ import 'package:pusher_beams/pusher_beams.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await PusherBeams.instance.start(
-      'your-instance-id'); // Supply your own instanceId
+  await PusherBeams.instance
+      .start('your-instance-id'); // Supply your own instanceId
 
   runApp(const MyApp());
 }
@@ -59,7 +59,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   initPusherBeams() async {
     // Let's see our current interests
-    print(await PusherBeams.instance.getDeviceInterests());
 
     // This is not intented to use in web
     if (!kIsWeb) {

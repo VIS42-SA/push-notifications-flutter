@@ -5,7 +5,6 @@
 import 'dart:async';
 import 'dart:typed_data' show Uint8List, Int32List, Int64List, Float64List;
 
-import 'package:flutter/foundation.dart' show WriteBuffer, ReadBuffer;
 import 'package:flutter/services.dart';
 import 'package:pusher_beams_platform_interface/pusher_beams_platform_interface.dart';
 
@@ -71,12 +70,13 @@ class PusherBeamsApi extends PusherBeamsPlatform {
 
   static const MessageCodec<Object?> codec = _PusherBeamsApiCodec();
 
-  Future<void> start(String arg_instanceId) async {
+  @override
+  Future<void> start(String instanceId) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PusherBeamsApi.start', codec,
         binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object>[arg_instanceId]) as Map<Object?, Object?>?;
+        await channel.send(<Object>[instanceId]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -96,6 +96,7 @@ class PusherBeamsApi extends PusherBeamsPlatform {
     }
   }
 
+  @override
   Future<Map<String, dynamic>?> getInitialMessage() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PusherBeamsApi.getInitialMessage', codec,
@@ -122,12 +123,13 @@ class PusherBeamsApi extends PusherBeamsPlatform {
     }
   }
 
-  Future<void> addDeviceInterest(String arg_interest) async {
+  @override
+  Future<void> addDeviceInterest(String interest) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PusherBeamsApi.addDeviceInterest', codec,
         binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object>[arg_interest]) as Map<Object?, Object?>?;
+        await channel.send(<Object>[interest]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -147,12 +149,13 @@ class PusherBeamsApi extends PusherBeamsPlatform {
     }
   }
 
-  Future<void> removeDeviceInterest(String arg_interest) async {
+  @override
+  Future<void> removeDeviceInterest(String interest) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PusherBeamsApi.removeDeviceInterest', codec,
         binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object>[arg_interest]) as Map<Object?, Object?>?;
+        await channel.send(<Object>[interest]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -172,6 +175,7 @@ class PusherBeamsApi extends PusherBeamsPlatform {
     }
   }
 
+  @override
   Future<List<String?>> getDeviceInterests() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PusherBeamsApi.getDeviceInterests', codec,
@@ -197,12 +201,13 @@ class PusherBeamsApi extends PusherBeamsPlatform {
     }
   }
 
-  Future<void> setDeviceInterests(List<String?> arg_interests) async {
+  @override
+  Future<void> setDeviceInterests(List<String?> interests) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PusherBeamsApi.setDeviceInterests', codec,
         binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object>[arg_interests]) as Map<Object?, Object?>?;
+        await channel.send(<Object>[interests]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -222,6 +227,7 @@ class PusherBeamsApi extends PusherBeamsPlatform {
     }
   }
 
+  @override
   Future<void> clearDeviceInterests() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PusherBeamsApi.clearDeviceInterests', codec,
@@ -247,12 +253,13 @@ class PusherBeamsApi extends PusherBeamsPlatform {
     }
   }
 
-  Future<void> onInterestChanges(dynamic arg_callbackId) async {
+  @override
+  Future<void> onInterestChanges(dynamic callback) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PusherBeamsApi.onInterestChanges', codec,
         binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object>[arg_callbackId]) as Map<Object?, Object?>?;
+        await channel.send(<Object>[callback]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -272,14 +279,14 @@ class PusherBeamsApi extends PusherBeamsPlatform {
     }
   }
 
-  Future<void> setUserId(String arg_userId, BeamsAuthProvider arg_provider,
-      dynamic arg_callbackId) async {
+  @override
+  Future<void> setUserId(
+      String userId, BeamsAuthProvider provider, dynamic callback) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PusherBeamsApi.setUserId', codec,
         binaryMessenger: _binaryMessenger);
-    final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object>[arg_userId, arg_provider, arg_callbackId])
-            as Map<Object?, Object?>?;
+    final Map<Object?, Object?>? replyMap = await channel
+        .send(<Object>[userId, provider, callback]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -299,6 +306,7 @@ class PusherBeamsApi extends PusherBeamsPlatform {
     }
   }
 
+  @override
   Future<void> clearAllState() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PusherBeamsApi.clearAllState', codec,
@@ -324,13 +332,14 @@ class PusherBeamsApi extends PusherBeamsPlatform {
     }
   }
 
-  Future<void> onMessageReceivedInTheForeground(dynamic arg_callbackId) async {
+  @override
+  Future<void> onMessageReceivedInTheForeground(dynamic callback) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PusherBeamsApi.onMessageReceivedInTheForeground',
         codec,
         binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
-        await channel.send(<Object>[arg_callbackId]) as Map<Object?, Object?>?;
+        await channel.send(<Object>[callback]) as Map<Object?, Object?>?;
     if (replyMap == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -350,6 +359,7 @@ class PusherBeamsApi extends PusherBeamsPlatform {
     }
   }
 
+  @override
   Future<void> stop() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.PusherBeamsApi.stop', codec,
